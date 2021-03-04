@@ -1,0 +1,3 @@
+[submodule "source/libs/blah"]
+	path = source/libs/blah
+	url = git@github.com:NoelFB/blah.git
