@@ -1,5 +1,6 @@
 #pragma once
 #include <blah.h>
+#include "core/world.h"
 
 using namespace Blah;
 
@@ -14,6 +15,8 @@ namespace VB
         void shutdown();
         void update();
         void render();
+
+        World world;
 
     private:
         FrameBufferRef m_gameplay_target;

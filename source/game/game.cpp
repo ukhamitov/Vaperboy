@@ -1,4 +1,5 @@
 #include "game.h"
+#include "components/timer.h"
 
 using namespace VB;
 
@@ -9,16 +10,26 @@ void Game::startup()
 
     // set batcher to use Nearest Filter
     batch.default_sampler = TextureSampler(TextureFilter::Nearest);
+
+    auto en = world.create(Point(12, 2));
+    if (en)
+    {
+        Log::print("Entity Created");
+        auto timer = en->add(Timer());
+        if (timer)
+            Log::print("Component added to Entity");
+    }
 }
 
 void Game::shutdown()
 {
-
+    world.clear();
 }
 
 void Game::update()
 {
-
+    // Update Objects
+    world.update();
 }
 
 void Game::render()
@@ -27,7 +38,8 @@ void Game::render()
     {
         m_gameplay_target->clear(Color::black);
 
-        // TODO: draw gameplay objects
+        // draw gameplay objects
+        world.render(batch);
 
         // draw to the gameplay buffer
         batch.render(m_gameplay_target);
