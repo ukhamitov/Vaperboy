@@ -129,13 +129,3 @@ void World::destroy(Component* component)
 {
 
 }
-
-template<class T>
-T* World::add(Entity* entity, T&& component)
-{
-    BLAH_ASSERT(entity, "Entity cannot be null");
-    BLAH_ASSERT(entity->m_world == this, "Entity must be part of this world");
-
-    // return new entity!
-    return nullptr;
-}
