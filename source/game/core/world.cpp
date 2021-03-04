@@ -3,13 +3,61 @@
 
 using namespace VB;
 
+uint16_t Component::id() const
+{
+    return m_id;
+}
+
+Entity * Component::entity()
+{
+    return m_entity;
+}
+
+void Component::entity(Entity *entity)
+{
+    m_entity = entity;
+}
+
+void Component::destroy() {}
+void Component::awake() {}
+void Component::added() {}
+void Component::destroyed() {}
+
+Entity::Entity()
+{
+
+}
+
+Entity::~Entity()
+{
+
+}
+
+void Entity::destroy()
+{
+    m_world->destroy(this);
+}
+
+Vector<Component*> &Entity::components() {
+    return m_components;
+}
+
+const Vector<Component*> &Entity::components() const {
+    return m_components;
+}
+
+template<class T>
+T* Entity::add(T&& component)
+{
+    return m_world->add(this, std::forward<T>(component));
+}
+
 World::World()
 {
-    m_unique_id = 0;
-    //for (int i = 0; i < 256; i++)
-    //    m_components.push_back(nullptr);
     m_cache.clear();
     m_alive.clear();
+    m_components_cache.clear();
+    m_components_alive.clear();
 }
 
 World::~World()
@@ -21,6 +69,8 @@ void World::clear()
 {
     m_alive.clear();
     m_cache.clear();
+    m_components_cache.clear();
+    m_components_alive.clear();
 }
 
 void World::update()
@@ -78,4 +128,14 @@ void World::destroy(Entity* entity)
 void World::destroy(Component* component)
 {
 
+}
+
+template<class T>
+T* World::add(Entity* entity, T&& component)
+{
+    BLAH_ASSERT(entity, "Entity cannot be null");
+    BLAH_ASSERT(entity->m_world == this, "Entity must be part of this world");
+
+    // return new entity!
+    return nullptr;
 }

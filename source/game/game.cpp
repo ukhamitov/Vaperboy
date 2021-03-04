@@ -5,31 +5,36 @@ using namespace VB;
 
 void Game::startup()
 {
+    // hello world
+    m_world = new World();
+
     // framebuffer for the game
     m_gameplay_target = FrameBuffer::create(1280, 720);
 
     // set batcher to use Nearest Filter
     batch.default_sampler = TextureSampler(TextureFilter::Nearest);
 
-    auto en = world.create(Point(12, 2));
+    // create our first entity
+    auto en = m_world->create(Point(12, 2));
     if (en)
     {
         Log::print("Entity Created");
-        auto timer = en->add(Timer());
-        if (timer)
-            Log::print("Component added to Entity");
+        // ... and try to add a component
+        en->add(Timer(1, [](Timer* self) {
+            Log::print("Entity Created 2");
+        }));
     }
 }
 
 void Game::shutdown()
 {
-    world.clear();
+    m_world->clear();
 }
 
 void Game::update()
 {
     // Update Objects
-    world.update();
+    m_world->update();
 }
 
 void Game::render()
@@ -39,7 +44,7 @@ void Game::render()
         m_gameplay_target->clear(Color::black);
 
         // draw gameplay objects
-        world.render(batch);
+        m_world->render(batch);
 
         // draw to the gameplay buffer
         batch.render(m_gameplay_target);

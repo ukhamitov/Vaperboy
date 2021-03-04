@@ -16,9 +16,8 @@ namespace VB
         void update();
         void render();
 
-        World world;
-
     private:
+        World* m_world;
         FrameBufferRef m_gameplay_target;
     };
 }
